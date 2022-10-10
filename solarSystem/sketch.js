@@ -11,8 +11,19 @@ function draw() {
     push();
     translate(width/2, height/2);
 
-    celestialObj(color(255,150,0), 200); // SUN
+    // Sun
+    rotate(radians(speed/3));
+    celestialObj(color(255,150,0), 200);
 
+    // Earth
+    translate(300, 0);
+    rotate(radians(speed));
+    celestialObj(color('blue'), 80);
+
+    // Moon
+    rotate(radians(speed*2));
+    translate(100, 0);
+    celestialObj(color('white'), 30);
 
     pop();
 }
