@@ -8,23 +8,33 @@ function draw() {
     background(0);
     speed = frameCount;
 
-    push();
     translate(width/2, height/2);
 
+    push();
+
     // Sun
-    rotate(radians(speed/3));
+    push();
+    rotate(radians(speed/3));           // spin around its axis at speed/3 (Step 5)
     celestialObj(color(255,150,0), 200);
+    pop();
 
     // Earth
-    translate(300, 0);
-    rotate(radians(speed));
-    celestialObj(color('blue'), 80);
+    rotate(radians(speed));             // rotate the earth around the sun at the "speed" velocity (Step 2)
+    translate(300, 0);                  // on the orbit of 300 pixels (Step 1)
+    push();
+    rotate(radians(speed));             // earth spin around its axis at velocity "speed" (Step 3)
+    celestialObj(color('blue'), 80);    // draw the earth of color blue and size 80 (Step 1)
+    pop();
 
     // Moon
-    rotate(radians(speed*2));
-    translate(100, 0);
-    celestialObj(color('white'), 30);
+    rotate(-radians(speed*2));
+    translate(100, 0);                 // on the orbit of 100 pixels (Step 4)
+    celestialObj(color('white'), 30);  // of color white and size 30 (Step 4)
 
+    // // Asteroid
+    // translate(30, 0);
+    // rotate(radians(speed*5));
+    // celestialObj(color('red'), 20);
     pop();
 }
 
