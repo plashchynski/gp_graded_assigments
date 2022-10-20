@@ -27,9 +27,9 @@ function draw() {
     pop();
 
     // Moon
-    rotate(-radians(speed*2));
-    translate(100, 0);                 // on the orbit of 100 pixels (Step 4)
-    celestialObj(color('white'), 30);  // of color white and size 30 (Step 4)
+    rotate(radians(-speed*2));          // rotate at velocity -speed*2 (Step 4)
+    translate(100, 0);                  // on the orbit of 100 pixels (Step 4)
+    celestialObj(color('white'), 30);   // of color white and size 30 (Step 4)
 
     // // Asteroid
     // translate(30, 0);
