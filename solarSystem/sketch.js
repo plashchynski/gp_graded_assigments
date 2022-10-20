@@ -31,10 +31,12 @@ function draw() {
     translate(100, 0);                  // on the orbit of 100 pixels (Step 4)
     celestialObj(color('white'), 30);   // of color white and size 30 (Step 4)
 
-    // // Asteroid
-    // translate(30, 0);
-    // rotate(radians(speed*5));
-    // celestialObj(color('red'), 20);
+    // Asteroid (Step 6)
+    rotate(radians(speed*5));           // rotate around the moon at speed*5
+    translate(30, 0);                   // on the orbit of 30 pixels
+    rotate(radians(speed*10));          // rotate around its axis at speed*10
+    celestialObj(color('red'), 20);     // of color red and size 20
+
     pop();
 }
 
