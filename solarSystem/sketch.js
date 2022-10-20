@@ -12,37 +12,54 @@ function draw() {
 
     push();
 
-    // Sun
+    drawSun();
+    drawEarth();
+    drawMoon();
+    drawAsteroid();
+
+    pop();
+}
+
+function drawSun() {
+    const sunColor = color(255,150,0);
+    const sunSize = 200;
+
     push();
     rotate(radians(speed/3));           // spin around its axis at speed/3 (Step 5)
-    celestialObj(color(255,150,0), 200);
+    celestialObj(sunColor, sunSize);
     pop();
+}
 
-    // Earth
+function drawEarth() {
+    const earthOrbit = 300;
+    const earthSize = 80;
+    const earthColor = color('blue');
+
     rotate(radians(speed));             // rotate the earth around the sun at the "speed" velocity (Step 2)
-    translate(300, 0);                  // on the orbit of 300 pixels (Step 1)
+    translate(earthOrbit, 0);          // on the orbit of 300 pixels (Step 1)
     push();
     rotate(radians(speed));             // earth spin around its axis at velocity "speed" (Step 3)
-    celestialObj(color('blue'), 80);    // draw the earth of color blue and size 80 (Step 1)
+    celestialObj(earthColor, earthSize);    // draw the earth of color blue and size 80 (Step 1)
     pop();
+}
 
-    // Moon
+function drawMoon() {
     rotate(radians(-speed*2));          // rotate at velocity -speed*2 (Step 4)
     translate(100, 0);                  // on the orbit of 100 pixels (Step 4)
     celestialObj(color('white'), 30);   // of color white and size 30 (Step 4)
+}
 
+function drawAsteroid() {
     // Asteroid (Step 6)
     rotate(radians(speed*5));           // rotate around the moon at speed*5
     translate(30, 0);                   // on the orbit of 30 pixels
     rotate(radians(speed*10));          // rotate around its axis at speed*10
     celestialObj(color('red'), 20);     // of color red and size 20
-
-    pop();
 }
 
-function celestialObj(c, size){
+function celestialObj(color, size){
     strokeWeight(5);
-    fill(c);
+    fill(color);
     stroke(0);
     ellipse(0, 0, size, size);
     line(0, 0, size/2, 0);
