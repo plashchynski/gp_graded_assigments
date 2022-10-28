@@ -24,8 +24,12 @@ class Spaceship {
         this.location.x, this.location.y - this.size/2);
   }
 
+  // Step 3: update the velocity and location of the spaceship
   move(){
-      // YOUR CODE HERE (4 lines)
+    this.velocity.add(this.acceleration);
+    this.velocity.limit(this.maxVelocity);
+    this.location.add(this.velocity);
+    this.acceleration.mult(0);
   }
 
   applyForce(f){
@@ -33,17 +37,18 @@ class Spaceship {
   }
 
   interaction(){
+      // Step 2: check if array key is pressed and apply a corresponding force to spaceship
       if (keyIsDown(LEFT_ARROW)){
         this.applyForce(createVector(-0.1, 0));
       }
       if (keyIsDown(RIGHT_ARROW)){
-      // YOUR CODE HERE (1 line)
+        this.applyForce(createVector(0.1, 0));
       }
       if (keyIsDown(UP_ARROW)){
-      // YOUR CODE HERE (1 line)
+        this.applyForce(createVector(0, -0.1));
       }
       if (keyIsDown(DOWN_ARROW)){
-      // YOUR CODE HERE (1 line)
+        this.applyForce(createVector(0, 0.1));
       }
   }
 
@@ -58,7 +63,14 @@ class Spaceship {
     else if (this.location.y>height) this.location.y = 0;
   }
 
+  // Step 9
   setNearEarth(){
-    //YOUR CODE HERE (6 lines approx)
+    const gravity = createVector(0, 0.05);
+    this.applyForce(gravity);
+
+    const friction = this.velocity.copy();
+    friction.mult(-1);
+    friction.div(30);
+    this.applyForce(friction);
   }
 }

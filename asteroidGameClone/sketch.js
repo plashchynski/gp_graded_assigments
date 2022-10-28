@@ -47,27 +47,61 @@ function drawEarth(){
 //////////////////////////////////////////////////
 //checks collisions between all types of bodies
 function checkCollisions(spaceship, asteroids){
+  // Step 5: spaceship-2-asteroid collisions
+  for (var i=0; i<asteroids.locations.length; i++){
+    if (isInside( spaceship.location,
+                  spaceship.size,
+                  asteroids.locations[i],
+                  asteroids.diams[i])){
+      return gameOver();
+    }
+  }
 
-    //spaceship-2-asteroid collisions
-    //YOUR CODE HERE (2-3 lines approx)
+  // Step 6: asteroid-2-earth collisions
+  for (var i=0; i<asteroids.locations.length; i++){
+    if (isInside( earthLoc,
+                  earthSize.y,
+                  asteroids.locations[i],
+                  asteroids.diams[i])){
+      return gameOver();
+    }
+  }
 
-    //asteroid-2-earth collisions
-    //YOUR CODE HERE (2-3 lines approx)
+  //Step 7: spaceship-2-earth
+  if (isInside( earthLoc, earthSize.y,
+                spaceship.location, spaceship.size)){
+    return gameOver();
+  }
 
-    //spaceship-2-earth
-    //YOUR CODE HERE (1-2 lines approx)
+  //Step 8: spaceship-2-atmosphere
+  if (isInside( atmosphereLoc, atmosphereSize.y,
+                spaceship.location, spaceship.size)){
+    spaceship.setNearEarth();
+  }
 
-    //spaceship-2-atmosphere
-    //YOUR CODE HERE (1-2 lines approx)
-
-    //bullet collisions
-    //YOUR CODE HERE (3-4 lines approx)
+  //Step 10: bullet collisions
+  for (var i=0; i<spaceship.bulletSys.bullets.length; i++){
+    for (var j=0; j<asteroids.locations.length; j++){
+      if (isInside( spaceship.bulletSys.bullets[i],
+                    spaceship.bulletSys.diam,
+                    asteroids.locations[j],
+                    asteroids.diams[j])){
+        asteroids.destroy(j);
+      }
+    }
+  }
 }
 
 //////////////////////////////////////////////////
-//helper function checking if there's collision between object A and object B
+//Step 4: helper function checking if there's collision between object A and object B
 function isInside(locA, sizeA, locB, sizeB){
-    // YOUR CODE HERE (3-5 lines approx)
+  if (locA.x + sizeA/2 > locB.x - sizeB/2 &&
+      locA.x - sizeA/2 < locB.x + sizeB/2 &&
+      locA.y + sizeA/2 > locB.y - sizeB/2 &&
+      locA.y - sizeA/2 < locB.y + sizeB/2){
+        return true;
+      }
+  return false;
 }
 
 //////////////////////////////////////////////////
