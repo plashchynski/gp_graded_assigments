@@ -87,6 +87,7 @@ function checkCollisions(spaceship, asteroids){
                     asteroids.locations[j],
                     asteroids.diams[j])){
         asteroids.destroy(j);
+        spaceship.recordHit();
       }
     }
   }

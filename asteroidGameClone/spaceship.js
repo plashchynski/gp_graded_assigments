@@ -7,6 +7,7 @@ class Spaceship {
     this.maxVelocity = 5;
     this.bulletSys = new BulletSystem();
     this.size = 50;
+    this.hits = 0;
   }
 
   run(){
@@ -22,6 +23,8 @@ class Spaceship {
     triangle(this.location.x - this.size/2, this.location.y + this.size/2,
         this.location.x + this.size/2, this.location.y + this.size/2,
         this.location.x, this.location.y - this.size/2);
+    textSize(32);
+    text("Score: " + this.hits, 10, 30);
   }
 
   // Step 3: update the velocity and location of the spaceship
@@ -72,5 +75,10 @@ class Spaceship {
     friction.mult(-1);
     friction.div(30);
     this.applyForce(friction);
+  }
+
+  // Step 11
+  recordHit() {
+    this.hits += 1;
   }
 }
