@@ -95,13 +95,7 @@ function checkCollisions(spaceship, asteroids){
 //////////////////////////////////////////////////
 //Step 4: helper function checking if there's collision between object A and object B
 function isInside(locA, sizeA, locB, sizeB){
-  if (locA.x + sizeA/2 > locB.x - sizeB/2 &&
-      locA.x - sizeA/2 < locB.x + sizeB/2 &&
-      locA.y + sizeA/2 > locB.y - sizeB/2 &&
-      locA.y - sizeA/2 < locB.y + sizeB/2){
-        return true;
-      }
-  return false;
+  return (locA.dist(locB) < (sizeA+sizeB)/2);
 }
 
 //////////////////////////////////////////////////
