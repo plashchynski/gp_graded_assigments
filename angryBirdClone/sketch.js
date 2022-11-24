@@ -9,6 +9,7 @@ var Body = Matter.Body;
 var Constraint = Matter.Constraint;
 var Mouse = Matter.Mouse;
 var MouseConstraint = Matter.MouseConstraint;
+var Composites = Matter.Composites;
 
 var engine;
 var propeller;
@@ -20,6 +21,7 @@ var slingshotBird, slingshotConstraint;
 var angle=0;
 var angleSpeed=0;
 var canvas;
+var tower;
 ////////////////////////////////////////////////////////////
 function setup() {
   canvas = createCanvas(1000, 600);

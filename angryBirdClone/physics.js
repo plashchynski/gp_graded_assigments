@@ -57,15 +57,31 @@ function drawBirds(){
   pop();
 }
 ////////////////////////////////////////////////////////////////
-//creates a tower of boxes
+// Step 4 creates a tower of boxes
 function setupTower(){
-  //you code here
+  const boxHeight = 80;
+  const boxWidth = 80;
+  const rows = 6;
+  const columns = 3;
+
+  tower = Composites.stack(width-boxWidth*(columns+1),
+                            ground.bounds.min.y-boxWidth*rows,
+                            columns, rows, 0, 0, function(x, y) {
+    const box = Bodies.rectangle(x, y, boxWidth, boxHeight);
+    box.color = color(0, random(100, 255), 0);
+    return box;
+  });
+  World.add(engine.world, [tower]);
 }
 ////////////////////////////////////////////////////////////////
-//draws tower of boxes
+// Step 5 draws tower of boxes
 function drawTower(){
   push();
-  //your code here
+  for (var i = 0; i < tower.bodies.length; i++) {
+    const box = tower.bodies[i];
+    fill(box.color);
+    drawVertices(box.vertices);
+  }
   pop();
 }
 ////////////////////////////////////////////////////////////////
