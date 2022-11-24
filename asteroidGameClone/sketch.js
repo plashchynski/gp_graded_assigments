@@ -28,6 +28,13 @@ function draw () {
   drawEarth()
 
   checkCollisions(spaceship, asteroids) // function that checks collision between various elements
+
+  // Step 11. Increases difficulty level every 100 frams
+  if (frameCount % 100 === 0) {
+    console.log(frameCount)
+    console.log(difficulty_level)
+    asteroids.difficulty_level += 1
+  }
 }
 
 // Draws earth and atmosphere
