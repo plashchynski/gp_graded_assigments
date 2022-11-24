@@ -42,9 +42,18 @@ function setupBird(){
   birds.push(bird);
 }
 ////////////////////////////////////////////////////////////////
+// Step 3: draw birds
 function drawBirds(){
   push();
-  //your code here
+  for (var i=0; i<birds.length; i++){
+    if (isOffScreen(birds[i])){
+      removeFromWorld(birds[i]);
+      birds.splice(i, 1);
+      i--;
+    }
+    fill('orange');
+    drawVertices(birds[i].vertices);
+  }
   pop();
 }
 ////////////////////////////////////////////////////////////////
