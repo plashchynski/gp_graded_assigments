@@ -51,7 +51,7 @@ function drawBirds(){
       birds.splice(i, 1);
       i--;
     }
-    fill('orange');
+    fill('red');
     drawVertices(birds[i].vertices);
   }
   pop();
@@ -85,14 +85,27 @@ function drawTower(){
   pop();
 }
 ////////////////////////////////////////////////////////////////
+// Step 6
 function setupSlingshot(){
-//your code here
+  slingshotBird = Bodies.circle(200, 200, 20, {friction: 0, restitution: 0.95});
+  Matter.Body.setMass(slingshotBird, slingshotBird.mass*10);
+
+  slingshotConstraint = Constraint.create({
+    pointA: {x: 200, y: 200},
+    bodyB: slingshotBird,
+    stiffness: 0.01,
+    damping: 0.0001
+  });
+  World.add(engine.world, [slingshotBird, slingshotConstraint]);
 }
 ////////////////////////////////////////////////////////////////
-//draws slingshot bird and its constraint
+//Step 7 draws slingshot bird and its constraint
 function drawSlingshot(){
   push();
-  // your code here
+  fill('orange');
+  drawVertices(slingshotBird.vertices);
+  fill(255);
+  drawConstraint(slingshotConstraint);
   pop();
 }
 /////////////////////////////////////////////////////////////////
