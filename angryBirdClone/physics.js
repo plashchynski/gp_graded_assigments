@@ -26,7 +26,7 @@ function setupPropeller(){
 // Step 2: updates and draws the propeller
 function drawPropeller(){
   push();
-  propeller.angle = angle;
+  Matter.Body.setAngle(propeller, angle);
   propeller.angularVelocity = angleSpeed;
   angle += angleSpeed;
   fill(255);

@@ -53,13 +53,13 @@ function draw() {
   drawSlingshot();
 }
 ////////////////////////////////////////////////////////////
-//use arrow keys to control propeller
+// Step 2. Use arrow keys to control propeller
 function keyPressed(){
   if (keyCode == LEFT_ARROW){
-    //your code here
+    angleSpeed += 0.01;
   }
   else if (keyCode == RIGHT_ARROW){
-    //your code here
+    angleSpeed -= 0.01;
   }
 }
 ////////////////////////////////////////////////////////////
