@@ -22,6 +22,8 @@ var angle=0;
 var angleSpeed=0;
 var canvas;
 var tower;
+var countdownStart;
+var gameOver = false;
 ////////////////////////////////////////////////////////////
 function setup() {
   canvas = createCanvas(1000, 600);
@@ -37,10 +39,17 @@ function setup() {
   setupSlingshot();
 
   setupMouseInteraction();
+
+  setupCountdown();
 }
 ////////////////////////////////////////////////////////////
 function draw() {
   background(0);
+
+  if (gameOver){
+    gameOver();
+    return;
+  }
 
   Engine.update(engine);
 
@@ -53,7 +62,53 @@ function draw() {
   drawBirds();
 
   drawSlingshot();
+
+  drawCoundown();
 }
+
+// Step 8: Countdown timer
+function setupCountdown(){
+  let date = new Date();
+  countdownStop = round(date.getTime() / 1000)+60; // 60 seconds
+}
+
+function drawCoundown(){
+  fill(255);
+  textSize(32);
+
+  let date = new Date();
+  let countdown = countdownStop - round(date.getTime() / 1000);
+  gameOver = true;
+  if (countdown < 0){
+    gameOver = true;
+  } else {
+    text(countdown, 10, 30);
+  }
+}
+
+function gameOver(){
+  push();
+  fill(255);
+  textSize(32);
+  translate(width/2, height/2);
+  text("Game Over", -10, 0);
+  pop();
+}
+
+function win(){
+
+}
+
+function restartGame(){
+  //remove all birds from the world
+  for (var i=0; i<birds.length; i++){
+    removeFromWorld(birds[i]);
+  }
+  birds = [];
+
+  setupCountdown();
+}
+
 ////////////////////////////////////////////////////////////
 // Step 2. Use arrow keys to control propeller
 function keyPressed(){
