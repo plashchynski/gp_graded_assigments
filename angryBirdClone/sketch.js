@@ -1,3 +1,4 @@
+// Task description: https://www.coursera.org/learn/uol-graphics-programming/supplement/MoMwA/graded-assignment-angry-birds-clone
 // Example is based on examples from: http://brm.io/matter-js/, https://github.com/shiffman/p5-matter
 // add also Benedict Gross credit
 
@@ -47,7 +48,7 @@ function draw() {
   background(0);
 
   if (gameOver){
-    gameOver();
+    displayGameOverSplashScreen();
     return;
   }
 
@@ -78,7 +79,7 @@ function drawCoundown(){
 
   let date = new Date();
   let countdown = countdownStop - round(date.getTime() / 1000);
-  gameOver = true;
+
   if (countdown < 0){
     gameOver = true;
   } else {
@@ -86,7 +87,7 @@ function drawCoundown(){
   }
 }
 
-function gameOver(){
+function displayGameOverSplashScreen(){
   push();
   fill(255);
   textSize(32);
@@ -95,8 +96,13 @@ function gameOver(){
   pop();
 }
 
-function win(){
-
+function displayWinningSplashScreen(){
+  push();
+  fill(255);
+  textSize(32);
+  translate(width/2, height/2);
+  text("You win", -10, 0);
+  pop();
 }
 
 function restartGame(){
