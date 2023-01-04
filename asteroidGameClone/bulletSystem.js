@@ -1,41 +1,44 @@
+/* p5js gloabl functions and variable for ESLint to ignore: */
+/* global ellipse, createVector, fill */
+
 class BulletSystem {
-  constructor () {
-    this.bullets = []
-    this.velocity = new createVector(0, -5)
-    this.diam = 10
+  constructor() {
+    this.bullets = [];
+    this.velocity = new createVector(0, -5);
+    this.diam = 10;
   }
 
-  run () {
+  run() {
     this.move();
     this.draw();
     this.edges();
   }
 
-  fire (x, y) {
-    this.bullets.push(createVector(x, y))
+  fire(x, y) {
+    this.bullets.push(createVector(x, y));
   }
 
   // draws all bullets
-  draw () {
-    fill(255)
+  draw() {
+    fill(255);
 
-    for (let i = 0; i < this.bullets.length; i++) {
-      ellipse(this.bullets[i].x, this.bullets[i].y, this.diam, this.diam)
+    for (let i = 0; i < this.bullets.length; i += 1) {
+      ellipse(this.bullets[i].x, this.bullets[i].y, this.diam, this.diam);
     }
   }
 
   // updates the location of all bullets
-  move () {
-    for (let i = 0; i < this.bullets.length; i++) {
-      this.bullets[i].y += this.velocity.y
+  move() {
+    for (let i = 0; i < this.bullets.length; i += 1) {
+      this.bullets[i].y += this.velocity.y;
     }
   }
 
   // Step 1: check if bullets leave the screen and remove them from the array
-  edges () {
-    for (let i = 0; i < this.bullets.length; i++) {
+  edges() {
+    for (let i = 0; i < this.bullets.length; i += 1) {
       if (this.bullets[i].y < 0) {
-        this.bullets.splice(i, 1)
+        this.bullets.splice(i, 1);
       }
     }
   }
