@@ -109,31 +109,43 @@ function drawCoundown() {
   text(secondsLeft(), 10, 30);
 }
 
-function displayGameOverSplashScreen() {
+/**
+ * Step 8 - Display game over splash screen
+ */
+function gameOver() {
   push();
   fill(255);
   translate(width / 2, height / 2);
 
+  textAlign(CENTER);
   textSize(32);
-  text('Game Over', -60, 0);
+  text('Game Over', 0, 0);
 
-  textSize(20);
-  text('Refresh the page to start again', -110, 30);
+  textSize(30);
+  text('Refresh the page to start again', 0, 70);
   pop();
+
+  noLoop();
 }
 
-function displayWinningSplashScreen() {
+/**
+ * Step 8 - Display winning splash screen
+ */
+function Win() {
   push();
   fill(255);
   translate(width / 2, height / 2);
 
-  textSize(32);
-  text('You win', -40, 0);
+  textSize(80);
+  textAlign(CENTER);
+  text('You win!', 0, 0);
 
-  textSize(20);
-  text('Refresh the page to start again', -110, 30);
+  textSize(30);
+  text('Refresh the page to start again', 0, 70);
 
   pop();
+
+  noLoop();
 }
 
 // Step 2. Use arrow keys to control propeller
@@ -145,6 +157,9 @@ function keyPressed() {
   }
 }
 
+/**
+ * a function is called when key is typed
+ */
 function keyTyped() {
   // if 'b' create a new bird to use with propeller
   if (key === 'b') {
@@ -175,13 +190,14 @@ function setup() {
 function draw() {
   background(0);
 
+
   if (tower.bodies.every((body) => isOffScreen(body))) {
-    displayWinningSplashScreen();
+    Win();
     return;
   }
 
   if (secondsLeft() <= 0) {
-    displayGameOverSplashScreen();
+    gameOver();
     return;
   }
 

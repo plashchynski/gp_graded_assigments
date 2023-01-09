@@ -37,7 +37,7 @@ function draw() {
 
   checkCollisions(spaceship, asteroids); // function that checks collision between various elements
 
-  // Step 11. Increases difficulty level every 100 frams
+  // Step 11. Increases difficulty level every 100 frames
   if (frameCount % 100 === 0) {
     asteroids.difficulty_level += 1;
   }
