@@ -1,6 +1,7 @@
 /* p5js gloabl functions and variable for ESLint to ignore: */
 /* global ellipse, createVector, fill */
 
+// Class to track and display bullets
 class BulletSystem {
   constructor() {
     this.bullets = [];
@@ -14,6 +15,7 @@ class BulletSystem {
     this.edges();
   }
 
+  // adds a new bullet to the array
   fire(x, y) {
     this.bullets.push(createVector(x, y));
   }

@@ -28,7 +28,7 @@ function setup() {
 
 function draw() {
   background(0);
-  sky();
+  drawSky();
 
   spaceship.run();
   asteroids.run();
@@ -103,6 +103,7 @@ function checkCollisions(spaceship, asteroids) {
   }
 }
 
+// function that fires a bullet when spacebar is pressed
 function keyPressed() {
   if (keyIsPressed && keyCode === 32) { // if spacebar is pressed, fire!
     spaceship.fire();
@@ -119,10 +120,14 @@ function gameOver() {
   noLoop();
 }
 
-// function that creates a star lit sky
-function sky() {
+// function that draws a star lit sky
+function drawSky() {
+  const numberOfStars = 300;
+
   push();
-  while (starLocs.length < 300) {
+
+  // draw stars at random locations
+  while (starLocs.length < numberOfStars) {
     starLocs.push(new createVector(random(width), random(height)));
   }
 
@@ -131,6 +136,7 @@ function sky() {
     rect(starLocs[i].x, starLocs[i].y, 2, 2);
   }
 
+  // randomly remove stars to creat twinkling effect
   if (random(1) < 0.3) starLocs.splice(int(random(starLocs.length)), 1);
 
   pop();

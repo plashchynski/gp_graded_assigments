@@ -2,6 +2,7 @@
 /* global triangle, keyIsDown, textSize, text, LEFT_ARROW, RIGHT_ARROW, UP_ARROW,
           DOWN_ARROW, createVector, fill, width, height */
 
+// Class to track and display a spaceship
 class Spaceship {
   constructor() {
     this.velocity = new createVector(0, 0);
@@ -13,6 +14,7 @@ class Spaceship {
     this.hits = 0;
   }
 
+  // draws and updates the spaceship
   run() {
     this.bulletSys.run();
     this.draw();
@@ -21,6 +23,7 @@ class Spaceship {
     this.interaction();
   }
 
+  // draws the spaceship
   draw() {
     fill(125);
     triangle(
@@ -49,27 +52,33 @@ class Spaceship {
 
   interaction() {
     // Step 2: check if array key is pressed and apply a corresponding force to spaceship
+    // Move the spaceship left if the left arrow key is pressed
     if (keyIsDown(LEFT_ARROW)) {
       this.applyForce(createVector(-0.1, 0));
     }
 
+    // Move the spaceship right if the right arrow key is pressed
     if (keyIsDown(RIGHT_ARROW)) {
       this.applyForce(createVector(0.1, 0));
     }
 
+    // Move the spaceship up if the up arrow key is pressed
     if (keyIsDown(UP_ARROW)) {
       this.applyForce(createVector(0, -0.1));
     }
 
+    // Move the spaceship down if the down arrow key is pressed
     if (keyIsDown(DOWN_ARROW)) {
       this.applyForce(createVector(0, 0.1));
     }
   }
 
+  // fires a bullet
   fire() {
     this.bulletSys.fire(this.location.x, this.location.y);
   }
 
+  // If spaceship leaves the screen, wrap it around to the other side
   edges() {
     if (this.location.x < 0) {
       this.location.x = width;
@@ -82,7 +91,7 @@ class Spaceship {
     }
   }
 
-  // Step 9
+  // Step 9: add a function to apply gravity and friction to the spaceship
   setNearEarth() {
     const gravity = createVector(0, 0.05);
     this.applyForce(gravity);
@@ -93,7 +102,7 @@ class Spaceship {
     this.applyForce(friction);
   }
 
-  // Step 11
+  // Step 11: Count how many times the spaceship hits an asteroid
   recordHit() {
     this.hits += 1;
   }

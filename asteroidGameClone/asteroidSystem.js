@@ -1,6 +1,7 @@
 /* p5js gloabl functions and variable for ESLint to ignore: */
 /* global random, width, fill, ellipse, noStroke, p5 */
 
+// Class to track and display asteroids
 class AsteroidSystem {
   // Creates arrays to store each asteroid's data
   constructor() {
@@ -11,6 +12,7 @@ class AsteroidSystem {
     this.difficulty_level = 1;
   }
 
+  // draws and updates all asteroids
   run() {
     this.spawn();
     this.move();
