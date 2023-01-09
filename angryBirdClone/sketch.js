@@ -57,6 +57,7 @@ function removeFromWorld(body) {
   World.remove(engine.world, body);
 }
 
+// A function to draw a Matter.js body using vertices
 function drawVertices(vertices) {
   beginShape();
   for (let i = 0; i < vertices.length; i += 1) {
@@ -65,6 +66,7 @@ function drawVertices(vertices) {
   endShape(CLOSE);
 }
 
+// A function to draw a connecting line between two bodies
 function drawConstraint(constraint) {
   push();
 
@@ -190,12 +192,13 @@ function setup() {
 function draw() {
   background(0);
 
-
+  // If all the boxes are off-screen, you win!
   if (tower.bodies.every((body) => isOffScreen(body))) {
     Win();
     return;
   }
 
+  // If secondsLeft() is 0, game over
   if (secondsLeft() <= 0) {
     gameOver();
     return;
