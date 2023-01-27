@@ -1,3 +1,5 @@
+// Task description: https://www.coursera.org/learn/uol-graphics-programming/supplement/pUC9c/3d-sine-games
+
 // Step 5: Add a new array to store the locations of the confetti
 const confLocs = [];
 
