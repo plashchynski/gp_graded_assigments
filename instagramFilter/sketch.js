@@ -176,6 +176,8 @@ function borderFilter(img) {
   buffer.stroke(255, 255, 255);
   buffer.noFill();
   buffer.rect(10, 10, img.width - 20, img.height - 20, 40);
+  buffer.strokeWeight(40);
+  buffer.rect(0, 0, img.width, img.height);
 
   return buffer;
 }
