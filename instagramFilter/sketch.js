@@ -81,21 +81,21 @@ function darkCorners(img) {
 
     // default coefficient for changing the pixel values
     // (no change)
-    let coef = 1;
+    let dynLum = 1;
 
     // Set the coefficient based on the distance of the current pixel
     // from the center of the image
     if (distFromCenter >= 300 && distFromCenter < 450) {
-      coef = map(distFromCenter, 300, 449, 1, 0.4);
+      dynLum = map(distFromCenter, 300, 449, 1, 0.4);
     } else if (distFromCenter >= 450) {
-      coef = map(distFromCenter, 450, maxDistFromCenter, 0.4, 0);
+      dynLum = map(distFromCenter, 450, maxDistFromCenter, 0.4, 0);
     }
 
     // Update pixel values using the formula for the vignetting filter
     // provided in the task description
-    img.pixels[i] = r * coef;
-    img.pixels[i + 1] = g * coef;
-    img.pixels[i + 2] = b * coef;
+    img.pixels[i] = constrain(r * dynLum, 0, 255);
+    img.pixels[i + 1] = constrain(g * dynLum, 0, 255);
+    img.pixels[i + 2] = constrain(b * dynLum, 0, 255);
 
     // left the alpha channel unchanged
     img.pixels[i + 3] = a;
