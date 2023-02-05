@@ -133,24 +133,24 @@ function convolution(x, y, matrix, matrixSize, img) {
 // Step 3: Implementing the radial blur image filter
 // Takes an image as input and returns a filtered image
 function radialBlurFilter(img) {
-  var imgOut = createImage(img.width, img.height);
-  var matrixSize = matrix.length;
+  const imgOut = createImage(img.width, img.height);
+  const matrixSize = matrix.length;
 
   img.loadPixels();
   imgOut.loadPixels();
 
-  for (var x = 0; x < img.width; x++) {
-    for (var y = 0; y < img.height; y++) {
-      var i = (y * img.width + x) * 4;
+  for (let x = 0; x < img.width; x += 1) {
+    for (let y = 0; y < img.height; y += 1) {
+      const i = (y * img.width + x) * 4;
 
       const r = img.pixels[i];
       const g = img.pixels[i + 1];
       const b = img.pixels[i + 2];
       const a = img.pixels[i + 3]; // alpha channel
 
-      var c = convolution(x, y, matrix, matrixSize, img);
+      const c = convolution(x, y, matrix, matrixSize, img);
 
-      let dynBlur = constrain(map(dist(x, y, mouseX, mouseY), 100, 300, 0, 1), 0, 1);
+      const dynBlur = constrain(map(dist(x, y, mouseX, mouseY), 100, 300, 0, 1), 0, 1);
 
       imgOut.pixels[i + 0] = c[0] * dynBlur + r * (1 - dynBlur);
       imgOut.pixels[i + 1] = c[1] * dynBlur + g * (1 - dynBlur);
@@ -163,6 +163,23 @@ function radialBlurFilter(img) {
   return imgOut;
 }
 
+// Step 4: Implementing the border image filter
+// Takes an image as input and returns a filtered image
+function borderFilter(img) {
+  const buffer = createGraphics(img.width, img.height);
+
+  // Draw the image on the buffer
+  buffer.image(img, 0, 0);
+
+  // Draw the border on the buffer
+  buffer.strokeWeight(20);
+  buffer.stroke(255, 255, 255);
+  buffer.noFill();
+  buffer.rect(10, 10, img.width - 20, img.height - 20, 40);
+
+  return buffer;
+}
+
 // Implementing the Early Bird image filter
 // Takes an image as input and returns a filtered image
 function earlyBirdFilter(img) {
@@ -170,6 +187,6 @@ function earlyBirdFilter(img) {
   resultImg = sepiaFilter(resultImg);
   resultImg = darkCorners(resultImg);
   resultImg = radialBlurFilter(resultImg);
-  // resultImg = borderFilter(resultImg)
+  resultImg = borderFilter(resultImg);
   return resultImg;
 }
