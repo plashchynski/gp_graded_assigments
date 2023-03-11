@@ -15,6 +15,9 @@ function setup() {
   radiusSlider = createSlider(1000, 2000, 1130);
   radiusSlider.position(10, 20);
 
+  FallingSpeedSlider = createSlider(1, 3, 1, 0.1);
+  FallingSpeedSlider.position(10, 40);
+
   // Step 5: Add 200 confetti to the array
   for (let i = 0; i < 500; i += 1) {
     // Step 5: Add a random 3D vectors to confLocs
@@ -37,13 +40,18 @@ function confetti() {
     push();
     noStroke();
     translate(confLoc.x, confLoc.y, confLoc.z);
+
+    // Step 7: Make the confetti rotating more natural by rotating in all directions
     rotateX(confTheta[i]);
+    rotateY(confTheta[i]);
+    rotateZ(confTheta[i]);
+
     plane(15, 15);
     pop();
 
     // Step 6: Make the confetti fall
-    confLoc.y += 1;
-    confTheta[i] += 10;
+    confLoc.y += FallingSpeedSlider.value();
+    confTheta[i] += 10 * FallingSpeedSlider.value();
 
     // Step 6: Reset the confetti when it falls off the screen
     if (confLoc.y > 0) {
@@ -92,9 +100,8 @@ function draw() {
     for (let z = -400; z < 400; z += 50) {
       // Step 3: Calculate the distance from the center and set the height of the boxes
       const distance = dist(x, 0, z, 0, 0, 0);
-      const length = 200 + sin(distance + frameCount) * 100;
-      console.log(length);
       // modulate length from 100 to 300 with sin:
+      const length = 200 + sin(distance + frameCount) * 100;
 
       push();
       // Step 7: Make the boxes blue, shiny, and a half transparent:
