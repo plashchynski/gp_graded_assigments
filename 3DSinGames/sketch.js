@@ -61,12 +61,22 @@ function draw() {
   // Step 2: Set stroke weight to 2 to better distinguish the boxes
   strokeWeight(2);
 
-  // Step 4: Get the camera to fly in a circle around the structure
-  const xLoc = cos(frameCount) * 1000;
-  const zLoc = sin(frameCount) * 1000;
+  /**
+   * Step 4: Get the camera to fly in a circle around the structure
+   * In Step 1 we set the camera to a fixed position at x=800, y=-600, z=800
+   * Now we want to move the camera around the center of the structure
+   * So we need to know the original distance to the center to
+   * calculate the radius of rotation:
+   * radius = sqrt(x^2 + z^2) = sqrt(800^2 + 800^2) = 1130
+   */
+  const radius = 1130;
+  const zLoc = radius * cos(frameCount);
+  const xLoc = radius * sin(frameCount);
 
   // Step 1: Set the camera
-  camera(xLoc, -600, zLoc, 0, 0, 0);
+  // camera(800, -600, 800, 0, 0, 0);
+  // Step 4: rotate camera around the center
+  camera(zLoc, -600, xLoc, 0, 0, 0);
 
   // Step 1: Draw the grid
   for (let x = -400; x < 400; x += 50) {
@@ -74,6 +84,8 @@ function draw() {
       // Step 3: Calculate the distance from the center and set the height of the boxes
       const distance = dist(x, 0, z, 0, 0, 0);
       const length = 200 + sin(distance + frameCount) * 100;
+      console.log(length);
+      // modulate length from 100 to 300 with sin:
 
       push();
       translate(x, 0, z);
