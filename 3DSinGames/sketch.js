@@ -6,8 +6,14 @@ const confLocs = [];
 // The initial angle of the confetti
 const confTheta = [];
 
+let radiusSlider;
+
 function setup() {
   createCanvas(900, 800, WEBGL);
+
+  // Step 7: Add a slider to control the radius of the camera
+  radiusSlider = createSlider(1000, 2000, 1130);
+  radiusSlider.position(10, 20);
 
   // Step 5: Add 200 confetti to the array
   for (let i = 0; i < 500; i += 1) {
@@ -31,8 +37,6 @@ function confetti() {
     push();
     noStroke();
     translate(confLoc.x, confLoc.y, confLoc.z);
-    rotateY(confTheta[i]);
-    rotateZ(confTheta[i]);
     rotateX(confTheta[i]);
     plane(15, 15);
     pop();
@@ -53,6 +57,7 @@ function draw() {
   angleMode(DEGREES);
 
   // Step 2: Set material to normal
+  // This will be overwritten by Step 7
   normalMaterial();
 
   // Step 2: Set stroke to zero
@@ -60,6 +65,9 @@ function draw() {
 
   // Step 2: Set stroke weight to 2 to better distinguish the boxes
   strokeWeight(2);
+
+  // Step 7: Set the light
+  ambientLight(100);
 
   /**
    * Step 4: Get the camera to fly in a circle around the structure
@@ -69,14 +77,15 @@ function draw() {
    * calculate the radius of rotation:
    * radius = sqrt(x^2 + z^2) = sqrt(800^2 + 800^2) = 1130
    */
-  const radius = 1130;
-  const zLoc = radius * cos(frameCount);
-  const xLoc = radius * sin(frameCount);
+  // Step 7: Get the radius from the slider
+  const radius = radiusSlider.value();
+  const zLoc = radius * sin(frameCount);
+  const xLoc = radius * cos(frameCount);
 
   // Step 1: Set the camera
   // camera(800, -600, 800, 0, 0, 0);
   // Step 4: rotate camera around the center
-  camera(zLoc, -600, xLoc, 0, 0, 0);
+  camera(xLoc, -600, zLoc, 0, 0, 0);
 
   // Step 1: Draw the grid
   for (let x = -400; x < 400; x += 50) {
@@ -88,6 +97,8 @@ function draw() {
       // modulate length from 100 to 300 with sin:
 
       push();
+      // Step 7: Make the boxes blue, shiny, and a half transparent:
+      specularMaterial(52, 155, 235, 100);
       translate(x, 0, z);
       box(50, length, 50);
       pop();
