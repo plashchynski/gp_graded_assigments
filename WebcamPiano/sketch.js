@@ -1,13 +1,14 @@
 // Task description: https://www.coursera.org/learn/uol-graphics-programming/supplement/GoUUj/webcam-piano
+// Step 6: I've extended the sketch by playing the active notes using the p5js Synth module.
 
-var video;
+let video;
 // Step 1: Create a variable to store the previous image
-var prevImg;
-var diffImg;
-var currImg;
-var thresholdSlider;
-var threshold;
-var grid;
+let prevImg;
+let diffImg;
+let currImg;
+let thresholdSlider;
+let threshold;
+let grid;
 
 function setup() {
   createCanvas(640 * 2, 480);
@@ -18,12 +19,16 @@ function setup() {
   thresholdSlider = createSlider(0, 255, 50);
   thresholdSlider.position(20, 20);
 
+  // Step 6: Create a new synth
+  const synth = new p5.MonoSynth();
+
   // Step 3: Create a new grid
-  grid = new Grid(640, 480);
+  grid = new Grid(640, 480, synth);
 }
 
 function draw() {
   background(0);
+  filter(INVERT);
   image(video, 0, 0);
 
   currImg = createImage(video.width, video.height);
@@ -37,7 +42,6 @@ function draw() {
 
   diffImg = createImage(video.width / 4, video.height / 4);
   diffImg.loadPixels();
-  // diffImg.resize(diffImg.width / 4, diffImg.height / 4);
 
   threshold = thresholdSlider.value();
 
@@ -46,17 +50,18 @@ function draw() {
     currImg.loadPixels();
     for (let x = 0; x < currImg.width; x += 1) {
       for (let y = 0; y < currImg.height; y += 1) {
-        var index = (x + (y * currImg.width)) * 4;
-        var redSource = currImg.pixels[index + 0];
-        var greenSource = currImg.pixels[index + 1];
-        var blueSource = currImg.pixels[index + 2];
+        const index = (x + (y * currImg.width)) * 4;
+        const redSource = currImg.pixels[index + 0];
+        const greenSource = currImg.pixels[index + 1];
+        const blueSource = currImg.pixels[index + 2];
 
-        var redBack = prevImg.pixels[index + 0];
-        var greenBack = prevImg.pixels[index + 1];
-        var blueBack = prevImg.pixels[index + 2];
+        const redBack = prevImg.pixels[index + 0];
+        const greenBack = prevImg.pixels[index + 1];
+        const blueBack = prevImg.pixels[index + 2];
 
-        var d = dist(redSource, greenSource, blueSource, redBack, greenBack, blueBack);
+        const d = dist(redSource, greenSource, blueSource, redBack, greenBack, blueBack);
 
+        // Activate the pixel if the distance is above the threshold
         if (d > threshold) {
           diffImg.pixels[index + 0] = 0;
           diffImg.pixels[index + 1] = 0;
@@ -84,11 +89,4 @@ function draw() {
 
   // Step 3: Draw the grid
   grid.run(diffImg);
-}
-
-// faster method for calculating color similarity which does not calculate root.
-// Only needed if dist() runs slow
-function distSquared(x1, y1, z1, x2, y2, z2) {
-  var d = (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1) + (z2-z1)*(z2-z1);
-  return d;
 }
