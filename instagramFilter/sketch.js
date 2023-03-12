@@ -3,6 +3,7 @@
 // https://en.wikipedia.org/wiki/Dog#/media/File:Siberian_Husky_pho.jpg
 
 var imgIn;
+let currentFilter = "earlyBird";
 
 // Convolution matrix for the Early Bird filter
 var matrix = [
@@ -21,13 +22,31 @@ function preload() {
 }
 
 function setup() {
-  createCanvas((imgIn.width * 2), imgIn.height);
+  createCanvas((imgIn.width * 2), imgIn.height + 100);
 }
 
 function draw() {
-  background(125);
+  background(255);
   image(imgIn, 0, 0);
-  image(earlyBirdFilter(imgIn), imgIn.width, 0);
+
+  let filteredImg;
+  switch (currentFilter) {
+    case 'earlyBird':
+      filteredImg = earlyBirdFilter(imgIn);
+      break;
+    case 'grayScale':
+      filteredImg = grayScale(imgIn);
+      break;
+    default:
+      console.error(`Unknown filter: ${currentFilter}`);
+  }
+
+  image(filteredImg, imgIn.width, 0);
+
+  text('You can switch between different filters by pressing a key:', 10, imgIn.height + 20);
+  text('1) Early Bird filter', 10, imgIn.height + 40);
+  text('2) Gray scale filter', 10, imgIn.height + 60);
+
   noLoop();
 }
 
@@ -196,4 +215,45 @@ function earlyBirdFilter(img) {
   resultImg = radialBlurFilter(resultImg);
   resultImg = borderFilter(resultImg);
   return resultImg;
+}
+
+function grayScale(img) {
+  const resultImg = img.get();
+  img.loadPixels();
+
+  resultImg.loadPixels();
+  for (let x = 0; x < img.width; x += 1) {
+    for (let y = 0; y < img.height; y += 1) {
+      // Convert from 3D to 2D indexes
+      const index = (y * img.width + x) * 4;
+
+      const red = img.pixels[index];
+      const green = img.pixels[index + 1];
+      const blue = img.pixels[index + 2];
+      const alpha = img.pixels[index + 3]; // alpha channel (transparency)
+
+      const gray = 0.299 * red + 0.587 * green + 0.114 * blue;
+
+      resultImg.pixels[index] = gray;
+      resultImg.pixels[index + 1] = gray;
+      resultImg.pixels[index + 2] = gray;
+      resultImg.pixels[index + 3] = alpha;
+    }
+  }
+
+  resultImg.updatePixels();
+
+  return resultImg;
+}
+
+// Step 5: Change the image filter based on the key pressed
+function keyPressed() {
+  const keyFilterMap = {
+    1: 'earlyBird',
+    2: 'grayScale',
+  };
+
+  currentFilter = keyFilterMap[key] || currentFilter;
+
+  loop();
 }
