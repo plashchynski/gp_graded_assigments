@@ -2,7 +2,11 @@
 // Image of Husky Creative commons from Wikipedia:
 // https://en.wikipedia.org/wiki/Dog#/media/File:Siberian_Husky_pho.jpg
 
+// Step 5: implemented additional gray scale filter
+
 var imgIn;
+
+// Step 5: current used filter
 let currentFilter = "earlyBird";
 
 // Convolution matrix for the Early Bird filter
@@ -29,6 +33,7 @@ function draw() {
   background(255);
   image(imgIn, 0, 0);
 
+  // Step 5: Select and apply filter based on the currentFilter variable
   let filteredImg;
   switch (currentFilter) {
     case 'earlyBird':
@@ -43,6 +48,7 @@ function draw() {
 
   image(filteredImg, imgIn.width, 0);
 
+  // Step 5: Display infromation about available filters
   text('You can switch between different filters by pressing a key:', 10, imgIn.height + 20);
   text('1) Early Bird filter', 10, imgIn.height + 40);
   text('2) Gray scale filter', 10, imgIn.height + 60);
@@ -217,6 +223,7 @@ function earlyBirdFilter(img) {
   return resultImg;
 }
 
+// Implementing the Gray Scale image filter
 function grayScale(img) {
   const resultImg = img.get();
   img.loadPixels();
@@ -232,6 +239,8 @@ function grayScale(img) {
       const blue = img.pixels[index + 2];
       const alpha = img.pixels[index + 3]; // alpha channel (transparency)
 
+      // Those coefficients are taken from:
+      // https://docs.opencv.org/3.4/de/d25/imgproc_color_conversions.html#color_convert_rgb_gray
       const gray = 0.299 * red + 0.587 * green + 0.114 * blue;
 
       resultImg.pixels[index] = gray;
