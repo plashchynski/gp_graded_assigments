@@ -37,10 +37,13 @@ function draw() {
   // Step 7: It will draw the random image, not just the first image from the original array
   image(imgs[0], 0, 0);
 
+  // Step 7: Calculate the number of images to use to calculate the average image
+  // based on the mouse position
+  const numOfImagesUsed = int(map(mouseX, 0, width, 1, imgs.length, true));
+  const usedImages = imgs.slice(0, numOfImagesUsed);
+
   // Step 4: Load the pixels of all images
-  imgs.forEach((img) => {
-    img.loadPixels();
-  });
+  usedImages.forEach((img) => img.loadPixels());
 
   avgImg.loadPixels();
 
@@ -56,7 +59,7 @@ function draw() {
       let sumB = 0;
       let sumAlpha = 0;
 
-      imgs.forEach((img) => {
+      usedImages.forEach((img) => {
         sumR += img.pixels[index];
         sumG += img.pixels[index + 1];
         sumB += img.pixels[index + 2];
@@ -64,10 +67,10 @@ function draw() {
       });
 
       // Step 6: Calculate the average of pixel values and set it to the average image
-      avgImg.pixels[index] = sumR / numOfImages;
-      avgImg.pixels[index + 1] = sumG / numOfImages;
-      avgImg.pixels[index + 2] = sumB / numOfImages;
-      avgImg.pixels[index + 3] = sumAlpha / numOfImages;
+      avgImg.pixels[index] = sumR / numOfImagesUsed;
+      avgImg.pixels[index + 1] = sumG / numOfImagesUsed;
+      avgImg.pixels[index + 2] = sumB / numOfImagesUsed;
+      avgImg.pixels[index + 3] = sumAlpha / numOfImagesUsed;
     }
   }
 
@@ -87,6 +90,11 @@ function keyPressed() {
   loop();
 }
 
+// Step 7: Redraw the average image when the mouse is moved
+function mouseMoved() {
+  loop();
+}
+
 /**
  * Move the random element of the array to the front
  * This is needed to display a random image for Step 7
@@ -100,3 +108,4 @@ function randomElementToFront(array) {
 
   return(array);
 }
+
