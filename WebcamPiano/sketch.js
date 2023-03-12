@@ -1,5 +1,6 @@
 // Task description: https://www.coursera.org/learn/uol-graphics-programming/supplement/GoUUj/webcam-piano
 // Step 6: I've extended the sketch by playing the active notes using the p5js Synth module.
+// Step 6: I've added a Note class (Note.js) to represent a note on the grid.
 
 let video;
 // Step 1: Create a variable to store the previous image
