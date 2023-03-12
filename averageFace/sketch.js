@@ -104,8 +104,9 @@ function mouseMoved() {
  */
 function randomElementToFront(array) {
   const randomIndex = int(random(0, array.length));
+
+  // remove element from the array and add it to the front
   array.unshift(array.splice(randomIndex, 1)[0]);
 
-  return(array);
+  return array;
 }
-
