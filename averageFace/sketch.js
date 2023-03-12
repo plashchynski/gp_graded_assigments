@@ -5,8 +5,8 @@ var avgImg;
 var numOfImages = 30;
 let imageWidth;
 let imageHeight;
-// Step 7: A random image to display
-var randomImage;
+// Step 7: A random image index to display
+let randomImageIndex;
 
 function preload() {
   // Step 1: Load all images
@@ -28,7 +28,7 @@ function setup() {
   avgImg = createGraphics(imageWidth, imageHeight);
 
   // Step 7: Choose a random image to display
-  randomImage = random(imgs);
+  randomImageIndex = int(random(0, numOfImages));
 }
 
 function draw() {
@@ -36,7 +36,7 @@ function draw() {
 
   // Step 2: Draw the first image
   // Step 7: Draw the random image, not just the first image
-  image(randomImage, 0, 0);
+  image(imgs[randomImageIndex], 0, 0);
 
   // Step 4: Load the pixels of all images
   imgs.forEach((img) => {
@@ -84,6 +84,6 @@ function draw() {
 
 // Step 7: Add a keyPressed event to choose a new random image to display
 function keyPressed() {
-  randomImage = random(imgs);
+  randomImageIndex = int(random(0, numOfImages));
   loop();
 }
