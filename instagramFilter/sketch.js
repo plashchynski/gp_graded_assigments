@@ -3,6 +3,8 @@
 // https://en.wikipedia.org/wiki/Dog#/media/File:Siberian_Husky_pho.jpg
 
 var imgIn;
+
+// Convolution matrix for the Early Bird filter
 var matrix = [
   [1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64],
   [1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64, 1/64],
@@ -117,6 +119,7 @@ function convolution(x, y, matrix, matrixSize, img) {
       var xloc = x + i - offset;
       var yloc = y + j - offset;
 
+      // Calculate the 1D location from a 2D grid
       var index = (img.width * yloc + xloc) * 4;
 
       index = constrain(index, 0, img.pixels.length - 1);
@@ -141,21 +144,23 @@ function radialBlurFilter(img) {
 
   for (let x = 0; x < img.width; x += 1) {
     for (let y = 0; y < img.height; y += 1) {
-      const i = (y * img.width + x) * 4;
+      // Calculate the 1D location from a 2D grid
+      const index = (y * img.width + x) * 4;
 
-      const r = img.pixels[i];
-      const g = img.pixels[i + 1];
-      const b = img.pixels[i + 2];
-      const a = img.pixels[i + 3]; // alpha channel
+      const red = img.pixels[index];
+      const green = img.pixels[index + 1];
+      const blue = img.pixels[index + 2];
+      const alpha = img.pixels[index + 3]; // alpha channel (transparency)
 
       const c = convolution(x, y, matrix, matrixSize, img);
 
+      // Calculate the radial blur coefficient
       const dynBlur = constrain(map(dist(x, y, mouseX, mouseY), 100, 300, 0, 1), 0, 1);
 
-      imgOut.pixels[i + 0] = c[0] * dynBlur + r * (1 - dynBlur);
-      imgOut.pixels[i + 1] = c[1] * dynBlur + g * (1 - dynBlur);
-      imgOut.pixels[i + 2] = c[2] * dynBlur + b * (1 - dynBlur);
-      imgOut.pixels[i + 3] = a;
+      imgOut.pixels[index + 0] = c[0] * dynBlur + red * (1 - dynBlur);
+      imgOut.pixels[index + 1] = c[1] * dynBlur + green * (1 - dynBlur);
+      imgOut.pixels[index + 2] = c[2] * dynBlur + blue * (1 - dynBlur);
+      imgOut.pixels[index + 3] = alpha; // alpha channel (transparency)
     }
   }
 
