@@ -2,7 +2,7 @@
 // Image of Husky Creative commons from Wikipedia:
 // https://en.wikipedia.org/wiki/Dog#/media/File:Siberian_Husky_pho.jpg
 
-// Step 5: implemented additional gray scale filter
+// Step 5: implemented additional gray scale, and negative filters
 
 var imgIn;
 
@@ -42,6 +42,9 @@ function draw() {
     case 'grayScale':
       filteredImg = grayScale(imgIn);
       break;
+    case 'negative':
+      filteredImg = negative(imgIn);
+      break;
     default:
       console.error(`Unknown filter: ${currentFilter}`);
   }
@@ -52,6 +55,7 @@ function draw() {
   text('You can switch between different filters by pressing a key:', 10, imgIn.height + 20);
   text('1) Early Bird filter', 10, imgIn.height + 40);
   text('2) Gray scale filter', 10, imgIn.height + 60);
+  text('3) Negative filter', 10, imgIn.height + 80);
 
   noLoop();
 }
@@ -255,11 +259,39 @@ function grayScale(img) {
   return resultImg;
 }
 
+// Implementing the Negative image filter
+function negative(img) {
+  const resultImg = img.get();
+  img.loadPixels();
+
+  resultImg.loadPixels();
+  for (let x = 0; x < img.width; x += 1) {
+    for (let y = 0; y < img.height; y += 1) {
+      // Convert from 3D to 2D indexes
+      const index = (y * img.width + x) * 4;
+
+      const red = img.pixels[index];
+      const green = img.pixels[index + 1];
+      const blue = img.pixels[index + 2];
+      const alpha = img.pixels[index + 3]; // alpha channel (transparency)
+
+      resultImg.pixels[index] = 255 - red;
+      resultImg.pixels[index + 1] = 255 - green;
+      resultImg.pixels[index + 2] = 255 - blue;
+      resultImg.pixels[index + 3] = alpha;
+    }
+  }
+
+  resultImg.updatePixels();
+
+  return resultImg;
+}
 // Step 5: Change the image filter based on the key pressed
 function keyPressed() {
   const keyFilterMap = {
     1: 'earlyBird',
     2: 'grayScale',
+    3: 'negative',
   };
 
   currentFilter = keyFilterMap[key] || currentFilter;
