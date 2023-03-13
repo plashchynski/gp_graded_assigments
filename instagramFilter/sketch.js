@@ -45,6 +45,9 @@ function draw() {
     case 'negative':
       filteredImg = negative(imgIn);
       break;
+    case 'edges':
+      filteredImg = edges(imgIn);
+      break;
     default:
       console.error(`Unknown filter: ${currentFilter}`);
   }
@@ -56,6 +59,7 @@ function draw() {
   text('1) Early Bird filter', 10, imgIn.height + 40);
   text('2) Gray scale filter', 10, imgIn.height + 60);
   text('3) Negative filter', 10, imgIn.height + 80);
+  text('4) Edges filter', 10, imgIn.height + 100);
 
   noLoop();
 }
@@ -286,12 +290,43 @@ function negative(img) {
 
   return resultImg;
 }
+
+// Implementing the edges filter
+function edges(img) {
+  const resultImg = img.get();
+  img.loadPixels();
+  const kernel = [[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]];
+
+  resultImg.loadPixels();
+  for (let x = 0; x < img.width; x += 1) {
+    for (let y = 0; y < img.height; y += 1) {
+      // Convert from 3D to 2D indexes
+      const index = (y * img.width + x) * 4;
+      const alpha = img.pixels[index + 3]; // alpha channel (transparency)
+
+      const c = convolution(x, y, kernel, kernel.length, img);
+
+      resultImg.pixels[index] = c[0];
+      resultImg.pixels[index + 1] = c[1];
+      resultImg.pixels[index + 2] = c[2];
+      resultImg.pixels[index + 3] = alpha;
+    }
+  }
+
+  resultImg.updatePixels();
+
+  return resultImg;
+}
+
+
+
 // Step 5: Change the image filter based on the key pressed
 function keyPressed() {
   const keyFilterMap = {
     1: 'earlyBird',
     2: 'grayScale',
     3: 'negative',
+    4: 'edges',
   };
 
   currentFilter = keyFilterMap[key] || currentFilter;
